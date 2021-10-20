@@ -1,0 +1,170 @@
+{
+  "rules": {
+    "consultas": {
+      "ativas": {
+        ".indexOn": [
+          "IDAluno",
+          "IDProfessor",
+          "IDNumerico",
+          "TSCriacao",
+          "TSInicio",
+          "TSFim"
+        ],
+        ".write": "(auth != null) && (auth.token != null) && ((auth.token.central === true) || (auth.token.equipe === true) || (auth.token.professor === true) || (auth.token.aluno === true))",
+        ".read": "(auth != null) && (auth.token != null)"
+      },
+      "liberar": {
+        ".indexOn": [
+          "IDAluno",
+          "IDProfessor",
+          "IDNumerico",
+          "TSCriacao",
+          "TSInicio",
+          "TSFim"
+        ],
+        ".write": "(auth != null) && (auth.token != null) && ((auth.token.central === true) || (auth.token.equipe === true) || (auth.token.aluno === true))",
+        ".read": "(auth != null) && (auth.token != null)"
+      },
+      "concluidas": {
+        ".indexOn": [
+          "IDAluno",
+          "IDProfessor",
+          "IDNumerico",
+          "TSCriacao",
+          "TSInicio",
+          "TSFim"
+        ],
+        ".write": "(auth != null) && (auth.token != null) && ((auth.token.central === true) || (auth.token.equipe === true) || (auth.token.professor === true) || (auth.token.aluno === true))",
+        ".read": "(auth != null) && (auth.token != null)"
+      },
+      "excluidas": {
+        ".indexOn": [
+          "IDAluno",
+          "IDProfessor",
+          "IDNumerico",
+          "TSCriacao",
+          "TSInicio",
+          "TSFim"
+        ],
+        ".write": "(auth != null) && (auth.token != null)",
+        ".read": "(auth != null) && (auth.token != null)"
+      },
+      "count": {
+        ".write": "(auth != null) && (auth.token != null)",
+        ".read": "(auth != null) && (auth.token != null)"
+      }
+    },
+    "users": {
+      "professores": {
+        ".indexOn": [
+          "ID",
+          "Email"
+        ],
+        ".read": "(auth != null) && (auth.token != null) && ((auth.token.central === true) || (auth.token.equipe === true))",
+        ".write": "(auth != null) && (auth.token != null) && ((auth.token.central === true) || (auth.token.equipe === true))",
+        "$uid": {
+          ".read": "(auth != null) && (auth.token != null) && ((auth.token.central === true) || ($uid === auth.uid))",
+          ".write": "(auth != null) && (auth.token != null) && ((auth.token.central === true) || ($uid === auth.uid))"
+        }
+      },
+      "alunos": {
+        ".indexOn": [
+          "ID",
+          "Email"
+        ],
+        ".read": "(auth != null) && (auth.token != null) && ((auth.token.central === true) || (auth.token.equipe === true))",
+        ".write": "(auth != null) && (auth.token != null) && ((auth.token.central === true) || (auth.token.equipe === true))",
+        "$uid": {
+          ".read": "(auth != null) && (auth.token != null) && ((auth.token.central === true) || ($uid === auth.uid))",
+          ".write": "(auth != null) && (auth.token != null) && ((auth.token.central === true) || ($uid === auth.uid))",
+          "CreditoPlataforma": {
+            ".validate": "(auth != null) && (auth.token != null) && (auth.token.central === true)"
+          }
+        }
+      },
+      "equipe": {
+        ".indexOn": [
+          "ID",
+          "Email"
+        ],
+        ".read": "(auth != null) && (auth.token != null) && ((auth.token.central === true) || (auth.token.equipe === true))",
+        ".write": "(auth != null) && (auth.token != null) && (auth.token.central === true)",
+        "$uid": {
+          ".read": "(auth != null) && (auth.token != null) && ((auth.token.central === true) || ($uid === auth.uid))",
+          ".write": "(auth != null) && (auth.token != null) && ((auth.token.central === true) || ($uid === auth.uid))"
+        }
+      },
+      "central": {
+        ".indexOn": [
+          "ID",
+          "Email"
+        ],
+        ".read": "(auth != null) && (auth.token != null) && (auth.token.central === true)",
+        ".write": "(auth != null) && (auth.token != null) && (auth.token.central === true)",
+        "$uid": {
+          ".read": "(auth != null) && (auth.token != null) && (auth.token.central === true)",
+          ".write": "(auth != null) && (auth.token != null) && (auth.token.central === true)"
+        }
+      },
+      "professoresPendentes": {
+        ".indexOn": [
+          "ID"
+        ],
+        ".read": "(auth != null) && (auth.token != null) && ((auth.token.central === true) || (auth.token.equipe === true))",
+        ".write": "true"
+      }
+    },
+    "materias": {
+      ".indexOn": [
+        "Categoria"
+      ],
+      ".read": "(auth != null) && (auth.token != null)",
+      ".write": "(auth != null) && (auth.token != null) && ((auth.token.central === true) || (auth.token.equipe === true))"
+    },
+    "DDDs": {
+      ".indexOn": [
+        "DDD"
+      ],
+      ".read": "true",
+      ".write": "(auth != null) && (auth.token != null) && (auth.token.central === true)"
+    },
+    "categorias": {
+      ".read": "(auth != null) && (auth.token != null)",
+      ".write": "(auth != null) && (auth.token != null) && ((auth.token.central === true) || (auth.token.equipe === true))"
+    },
+    "financeiro": {
+      ".read": "(auth != null) && (auth.token != null) && (auth.token.central === true)",
+      "$ano": {
+        "$mes": {
+          "professores": {
+            ".read": "(auth != null) && (auth.token != null) && (auth.token.central === true)",
+            ".write": "(auth != null) && (auth.token != null) && (auth.token.central === true)",
+            "$uid": {
+              ".read": "(auth != null) && (auth.token != null) && (auth.uid === $uid)",
+              ".write": "(auth != null) && (auth.token != null) && ((auth.token.central === true) || ((auth.token.professor === true) && (auth.uid === $uid)))"
+            },
+            ".indexOn": [
+              "StatusPagamento"
+            ]
+          }
+        }
+      }
+    },
+    "chats": {
+      ".indexOn": [
+        "IDAluno",
+        "IDConsulta",
+        "IDProfessor"
+      ],
+      ".read": "(auth != null) && (auth.token != null)",
+      ".write": "auth != null && (auth.token != null)"
+    },
+    "pedidosSaquesProf": {
+      ".read": "(auth != null) && (auth.token != null) && (auth.token.central === true)",
+      "$uid": {
+        ".read": "(auth != null) && (auth.token != null) && ((auth.token.central === true) || ($uid === auth.uid))",
+        ".write": "(auth != null) && (auth.token != null) && ((auth.token.central === true) || (auth.token.equipe === true) || ($uid === auth.uid))"
+      }
+    }
+  }
+}
